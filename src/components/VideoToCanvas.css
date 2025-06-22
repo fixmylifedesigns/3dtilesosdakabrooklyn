@@ -80,3 +80,65 @@
             mask-composite: intersect;
             -webkit-mask-composite: source-in;
 }
+
+/* ---------- Intro card (image + text + button) ---------- */
+.intro-card {
+  position: absolute;          /* center in viewport */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 2.5rem;
+  gap: 1.25rem;
+  background: #ffffffee;       /* subtle translucent white */
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+/* cute photo at top */
+.intro-img {
+  width: 260px;
+  height: auto;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+/* Japanese love note */
+.intro-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #ff6b6b;              /* soft pink-red */
+}
+
+/* base button from before */
+.start-btn {
+  width: 208px;
+  height: 56px;
+  border: none;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+
+/* extra “cute” flair */
+.start-btn.cute {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(255, 105, 135, 0.35);
+}
+
+.start-btn.cute:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255, 105, 135, 0.45);
+}
+
+.start-btn.cute:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(255, 105, 135, 0.4);
+}
