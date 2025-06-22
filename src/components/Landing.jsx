@@ -1,16 +1,15 @@
 // VideoToCanvas.jsx
 import React, { useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, KeyboardControls } from "@react-three/drei";
+import { OrbitControls, MapControls } from "@react-three/drei";
 import { motion, AnimatePresence } from "framer-motion";
 import "./VideoToCanvas.css"; // ← add this line
-import { Head3 } from "./head3";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Eye } from "./eye";
-import { Experience } from "./Experience";
 import { Babe } from "./babe";
 import { Crib } from "./crib";
+import { Heart } from "./heart";
+import { Ily } from "./ily";
 
 function MouseFollower({ children, yaw = 1, pitch = 1 }) {
   const ref = useRef();
@@ -71,7 +70,7 @@ export default function Landing() {
           animate={{ opacity: 1 }}
           transition={{ duration: 2 }}
         >
-          <Canvas camera={{ position: [0, 500, 5] }}>
+          <Canvas camera={{ position: [0, 500, 5] }} rotation={[0, 1.56, 0]}>
             <ambientLight intensity={2} />
             <directionalLight
               position={[5, 5, 5]}
@@ -79,7 +78,8 @@ export default function Landing() {
               castShadow
               color={"#EAECED"}
             />
-            <Mouse />
+            <MapControls />
+            {/* <Mouse /> */}
             <Crib position={[165, 0, -14]} rotation={[0, 1.56, 0]} />
             <Babe position={[-165, -80, 0]} />
             <MouseFollower yaw={0.2} pitch={0.2}></MouseFollower>
@@ -92,6 +92,20 @@ export default function Landing() {
               // optional limits
               minPolarAngle={1} // stop at “ground level”
               maxPolarAngle={Math.PI / 2} // no flipping under the scene
+            />
+            <Ily              position={[20, 20, -14]}
+              scale={[100, 100, 100]}/>
+            <Heart
+              // color="#E60B12"
+              position={[-5, 4, -14]}
+              scale={[30, 30, 30]}
+              rotation={[0, 0, 0]}
+            />
+            <Heart
+              // color="red"
+              position={[45, 8, 15]}
+              scale={[30, 30, 30]}
+              rotation={[0, 0, 0]}
             />
           </Canvas>
         </motion.div>

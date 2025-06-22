@@ -1,7 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
 
-import { Experience } from "./components/Experience";
 import { Suspense } from "react";
 import Landing from './components/Landing'
 
