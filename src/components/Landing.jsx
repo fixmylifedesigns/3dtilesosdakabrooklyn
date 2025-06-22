@@ -4,7 +4,6 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, MapControls, Mask, useMask } from "@react-three/drei";
 import { motion, AnimatePresence } from "framer-motion";
 import "./VideoToCanvas.css";
-import * as THREE from "three";
 import confetti from "canvas-confetti";
 import image from "./image.png";
 
@@ -13,33 +12,9 @@ import { Babe } from "./babe";
 import { Crib } from "./crib";
 import { Heart } from "./heart";
 import { Ily } from "./ily";
-
-/** HeartMask — stencil mask helper */
-function HeartMask({ children, y = 0.01 }) {
-  const heartShape = useMemo(() => {
-    const s = new THREE.Shape();
-    s.moveTo(0, 2.5);
-    s.bezierCurveTo(0, 2.5, -2, 0, -5, 0);
-    s.bezierCurveTo(-13, 0, -13, 8, -13, 8);
-    s.bezierCurveTo(-13, 14, -7, 19, 0, 24);
-    s.bezierCurveTo(7, 19, 13, 14, 13, 8);
-    s.bezierCurveTo(13, 8, 13, 0, 5, 0);
-    s.bezierCurveTo(2, 0, 0, 2.5, 0, 2.5);
-    return s;
-  }, []);
-  const stencil = useMask(1);
-  return (
-    <>
-      <Mask id={1}>
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, y, 0]}>
-          <shapeGeometry args={[heartShape]} />
-          <meshBasicMaterial colorWrite={false} depthWrite={false} />
-        </mesh>
-      </Mask>
-      <group {...stencil}>{children}</group>
-    </>
-  );
-}
+import { Brooklyn } from "./brooklyn";
+import { Osaka } from "./osaka";
+import { Im } from "./im";
 
 /** MouseFollower — turns a group based on pointer delta */
 function MouseFollower({ children, yaw = 1, pitch = 1 }) {
@@ -55,20 +30,37 @@ function MouseFollower({ children, yaw = 1, pitch = 1 }) {
 export default function Landing() {
   const [started, setStarted] = useState(false);
   const [balloon, setBalloon] = useState(60);
+  const [design, setDesign] = useState(1);
 
   /** trigger a confetti burst at the middle of the screen */
   const fireConfetti = useCallback(() => {
+    confetti({
+      particleCount: 120,
+      spread: 90,
+      origin: { y: 0.5 },
+    });
+
     if (balloon < 120) {
       setBalloon(balloon + 20);
+      setDesign(design + 1);
     } else {
       setBalloon(60);
-      confetti({
-        particleCount: 120,
-        spread: 90,
-        origin: { y: 0.5 },
-      });
+      setDesign(1);
     }
   }, [balloon]);
+
+  const BalloonDesign = (props) => {
+    switch (design) {
+      case 1:
+        return <Ily {...props} />;
+      case 2:
+        return <Im {...props} />;
+      case 3:
+        return <Osaka {...props} />;
+      default:
+        return <Brooklyn {...props} position={[20, 50, 0]}/>;
+    }
+  };
 
   return (
     <div className="wrapper">
@@ -134,20 +126,25 @@ export default function Landing() {
               />
 
               {/* heart-clipped flat map */}
-              <HeartMask y={0.05}>
-                <Crib position={[165, 0, -14]} rotation={[0, 1.56, 0]} />
-              </HeartMask>
+
+              <Crib position={[165, 0, -14]} rotation={[0, 1.56, 0]} />
 
               {/* other models */}
               <Babe position={[-165, -80, 0]} />
               <MouseFollower yaw={0.2} pitch={0.2}>
                 {/* Ily acts as the trigger: onClick → confetti burst */}
-                <Ily
-                  position={[20, 20, -14]}
+                <BalloonDesign
+                  position={[20, 30, 0]}
                   scale={[balloon, balloon, balloon]}
                   onClick={fireConfetti}
                   onPointerMissed={(e) => e.stopPropagation()}
                 />
+                {/* <Ily
+                  position={[20, 20, -14]}
+                  scale={[balloon, balloon, balloon]}
+                  onClick={fireConfetti}
+                  onPointerMissed={(e) => e.stopPropagation()}
+                /> */}
               </MouseFollower>
 
               {/* decorative hearts */}
