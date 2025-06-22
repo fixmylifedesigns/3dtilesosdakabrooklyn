@@ -109,7 +109,7 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
           >
             <Canvas
-              camera={{ position: [0, 500, 5] }}
+              camera={{ position: [0, 500, 5], near: 0.1, far: 7000 }}
               rotation={[0, 1.56, 0]}
               gl={{ stencil: true }}
             >
@@ -130,6 +130,7 @@ export default function Landing() {
                 dampingFactor={0.13}
                 minPolarAngle={1}
                 maxPolarAngle={Math.PI / 2}
+                maxDistance={800}
               />
 
               {/* heart-clipped flat map */}
